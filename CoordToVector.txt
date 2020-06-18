@@ -1,0 +1,75 @@
+import math
+
+#### DMS TO DECIMAL DEGREES ####
+def dms_to_dec_degrees():
+    geo_deg = float(input("Enter the degrees: "))
+    geo_min = float(input("Enter the minutes: "))
+    geo_sec = float(input("Enter the seconds: "))
+    geo_dec_deg = ((geo_deg) + (geo_min / 60) + (geo_sec / 3600))
+    print("The decimal degrees is:", geo_dec_deg)
+    print()
+
+
+#### FOR START/STOP VALUES ####
+def geo_point(f):
+    point = f * (40000 / 360) * 3280.4
+    return point
+
+
+#### DECIMAL DEGREES TO VECTOR COORDINATES ###
+
+def dec_degrees_to_vector():
+    geo_long_start = float(input('What is the initial longitude in decimal degrees?:'))
+    geo_lat_start = float(input('What is the intial latitude in decimal degrees?:'))
+    geo_long_stop = float(input('What is the final longitude in decimal degrees?:'))
+    geo_lat_stop = float(input('What is the final latitude in decimal degrees?:'))
+    print()
+    x_1 = geo_point(geo_long_start)
+    x_2 = geo_point(geo_long_stop)
+    y_1 = geo_point(geo_lat_start)                        
+    y_2 = geo_point(geo_lat_stop)
+    x_vector = x_2 - x_1
+    y_vector = y_2 - y_1                                            
+    length = math.sqrt((x_vector ** 2) + (y_vector ** 2))
+    print("Vector: ", x_vector, "i", " + ", y_vector, "j", sep='')
+    print("The length of your vector is:", round(length,2), "ft.")
+    if (x_vector == 0):
+        if (y_vector > 0):
+            print("The angle of your vector is: 90 degrees.")
+        elif (y_vector == 0):
+            print("The angle of your vector does not exist.")
+        else:
+            print("The angle of your vector is: 270 degrees.")
+    elif (x_vector < 0):
+        theta = (y_vector / x_vector)
+        print("The angle of your vector is:", round(math.degrees(math.atan(theta))+180,2), "degrees.")
+    else:
+        print("The angle of your vector is:", round(math.degrees(math.atan(y_vector / x_vector)),2), "degrees.")
+    print("")
+    
+
+#### MENU ###
+def menu():
+    a=4
+    print("Team 11A: Vector Program")
+    print("========================")
+    print("1: DMS to Decimal Degrees")
+    print("2: Decimal Degrees to Vector Coodinates")
+    print("quit: Quit Program")
+    print("========================")
+    while a != 'quit' and a != 'Quit':
+        a = input("Please enter 1, 2, or quit: ")
+        if (a == str(2)):
+            print("")
+            dec_degrees_to_vector()
+        elif (a == str(1)):
+            print("")
+            dms_to_dec_degrees()
+        elif (a == 'quit'):
+            print("That's all folks!")
+        elif (a == 'Quit'):
+            print("That's all folks!")
+        else:
+            print("Invalid input: Please enter 1, 2, or quit:")
+
+menu()      
